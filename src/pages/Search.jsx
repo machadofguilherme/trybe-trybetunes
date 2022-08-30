@@ -9,7 +9,7 @@ export default class Search extends Component {
   handleChange = ({ target }) => {
     const { value } = target;
 
-    if (value >= 2) {
+    if (value.length >= 2) {
       this.setState({ isDisabled: false });
     } else {
       this.setState({ isDisabled: true });
