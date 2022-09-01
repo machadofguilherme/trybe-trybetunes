@@ -44,6 +44,7 @@ export default class Album extends Component {
             </h3>
 
             {
+              // Com a ajuda de Vinícius Bortoletto.
               collection
                 .filter((xablau) => xablau.trackName)
                 .map((album) => (
