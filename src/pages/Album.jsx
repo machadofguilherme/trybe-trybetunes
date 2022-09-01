@@ -46,7 +46,7 @@ export default class Album extends Component {
             {
               // Com a ajuda de Vinícius Bortoletto.
               collection
-                .filter((xablau) => xablau.trackName)
+                .filter((track) => track.trackName)
                 .map((album) => (
                   <MusicCard
                     key={ album.trackName }
