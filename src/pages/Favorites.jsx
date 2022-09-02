@@ -1,15 +1,87 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Header from '../components/Header';
+import Loading from '../components/Loading';
+
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 export default class Favorites extends Component {
+  state = {
+    isLoading: true,
+    favorites: [],
+    click: true,
+  };
+
+  async componentDidMount() {
+    this.setState({ isLoading: false });
+    const myFavorites = await getFavoriteSongs();
+    this.setState({ favorites: myFavorites });
+  }
+
+  handleChange = ({ target }) => {
+    const { type } = target;
+
+    const value = type === 'checkbox'
+      && target.checked;
+
+    this.setState({ click: value });
+  };
+
+  handleClick = async () => {
+    const { infoMusic } = this.props;
+
+    this.setState({ isLoading: true });
+    await addSong(infoMusic);
+    this.setState({ isLoading: false });
+  };
+
   render() {
+    const { isLoading, favorites, click } = this.state;
+
     return (
       <main>
         <Header />
         <div data-testid="page-favorites">
-          Favoritos.
+
+          { isLoading && <Loading /> }
+
+          {
+            favorites.map((favorite) => (
+              <section key={ favorite.trackName }>
+                <h5>
+                  { favorite.trackName }
+                  <label htmlFor="favorite">
+                    <input
+                      data-testid={ `checkbox-music-${favorite.trackId}` }
+                      type="checkbox"
+                      name="favorite"
+                      id="favorite"
+                      checked={ click }
+                      onChange={ this.handleChange }
+                      onClick={ this.handleClick }
+                    />
+                    Favorita
+                  </label>
+                </h5>
+                <audio
+                  data-testid="audio-component"
+                  src={ favorite.previewUrl }
+                  controls
+                >
+                  <track kind="captions" />
+                  O seu navegador não suporta o elemento
+                  <code>audio</code>
+                </audio>
+              </section>
+            ))
+          }
         </div>
       </main>
     );
   }
 }
+
+Favorites.propTypes = {
+  infoMusic: PropTypes.arrayOf.isRequired,
+};

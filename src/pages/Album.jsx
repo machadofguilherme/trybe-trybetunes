@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import Favorites from './Favorites';
 
 export default class Album extends Component {
   state = {
@@ -48,10 +49,17 @@ export default class Album extends Component {
               collection
                 .filter((track) => track.trackName)
                 .map((album) => (
-                  <MusicCard
-                    key={ album.trackName }
-                    infoMusic={ album }
-                  />
+                  <>
+                    <MusicCard
+                      key={ album.trackName }
+                      infoMusic={ album }
+                    />
+
+                    <Favorites
+                      key={ album.trackName }
+                      infoMusic={ album }
+                    />
+                  </>
                 ))
             }
           </article>

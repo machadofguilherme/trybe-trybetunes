@@ -24,6 +24,9 @@ export default class MusicCard extends Component {
     return (
       <main>
         {
+          /* Com a ajuda de Arthur Debiasi.
+          Popularmente conhecido como Debian. */
+
           isLoading
             && <Loading />
         }

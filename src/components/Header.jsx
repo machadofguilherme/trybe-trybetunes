@@ -15,7 +15,9 @@ export default class Header extends Component {
     const userName = request.name;
     this.setState({ username: userName });
 
-    if (userName.length > 0) this.setState({ isLoading: false });
+    if (userName.length > 0) {
+      this.setState({ isLoading: false });
+    }
   }
 
   render() {
