@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Header from '../components/Header';
 import Loading from '../components/Loading';
+import Header from '../components/Header';
 
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
@@ -48,7 +48,7 @@ export default class Favorites extends Component {
 
           {
             favorites.map((favorite) => (
-              <section key={ favorite.trackName }>
+              <section key={ favorite.trackId }>
                 <h5>
                   { favorite.trackName }
                   <label htmlFor="favorite">

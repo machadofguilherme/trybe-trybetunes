@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
-import Favorites from './Favorites';
+import Header from '../components/Header';
+
+// import Favorites from './Favorites';
 
 export default class Album extends Component {
   state = {
@@ -32,39 +33,36 @@ export default class Album extends Component {
     const { collection, artist, albumName } = this.state;
 
     return (
-      <main>
+      <div data-testid="page-album">
         <Header />
+        <article>
+          <h5 data-testid="artist-name">
+            { artist }
+          </h5>
+          <h3 data-testid="album-name">
+            { albumName }
+          </h3>
 
-        <div data-testid="page-album">
-          <article>
-            <h5 data-testid="artist-name">
-              { artist }
-            </h5>
-            <h3 data-testid="album-name">
-              { albumName }
-            </h3>
+          {
+            // Com a ajuda de Vinícius Bortoletto.
+            collection
+              .filter((track) => track.trackName)
+              .map((album) => (
+                <>
+                  <MusicCard
+                    key={ album.collectionId }
+                    infoMusic={ album }
+                  />
 
-            {
-              // Com a ajuda de Vinícius Bortoletto.
-              collection
-                .filter((track) => track.trackName)
-                .map((album) => (
-                  <>
-                    <MusicCard
-                      key={ album.trackName }
-                      infoMusic={ album }
-                    />
-
-                    <Favorites
-                      key={ album.trackName }
-                      infoMusic={ album }
-                    />
-                  </>
-                ))
-            }
-          </article>
-        </div>
-      </main>
+                  {/* <Favorites
+                    key={ album.collectionId }
+                    infoMusic={ album }
+                  /> */}
+                </>
+              ))
+          }
+        </article>
+      </div>
     );
   }
 }
