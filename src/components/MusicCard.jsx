@@ -10,15 +10,15 @@ export default class MusicCard extends Component {
   };
 
   handleClick = async () => {
-    const { infoMusic } = this.props;
-
+    const { infoMusic, getFavoriteFunc } = this.props;
     this.setState({ isLoading: true });
     await addSong(infoMusic);
+    await getFavoriteFunc();
     this.setState({ isLoading: false });
   };
 
   render() {
-    const { infoMusic } = this.props;
+    const { infoMusic, getFavorite } = this.props;
     const { isLoading } = this.state;
 
     return (
@@ -32,6 +32,7 @@ export default class MusicCard extends Component {
         }
 
         <div>
+          {/* Com a ajuda de Vinícius Bortoletto. */}
           <h5>
             { infoMusic.trackName }
             <label htmlFor="favorite">
@@ -40,7 +41,9 @@ export default class MusicCard extends Component {
                 type="checkbox"
                 name="favorite"
                 id="favorite"
-                onClick={ this.handleClick }
+                onChange={ this.handleClick }
+                checked={ getFavorite.some((xablaida) => (
+                  xablaida.trackId === infoMusic.trackId)) }
               />
               Favorita
             </label>
@@ -61,9 +64,13 @@ export default class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
+  getFavorite: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+
+  getFavoriteFunc: PropTypes.func.isRequired,
+
   infoMusic: PropTypes.shape({
     previewUrl: PropTypes.string,
-    trackName: PropTypes.string,
     trackId: PropTypes.number,
+    trackName: PropTypes.string,
   }).isRequired,
 };

@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import Header from '../components/Header';
-
-// import Favorites from './Favorites';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 export default class Album extends Component {
   state = {
     collection: [],
     artist: '',
     albumName: '',
+    getFavorite: [],
   };
 
   async componentDidMount() {
@@ -22,15 +22,23 @@ export default class Album extends Component {
     const artist = collection[0].artistName;
     const albumName = collection[0].collectionName;
 
+    const ximboca = await getFavoriteSongs();
+
     this.setState({
       collection: [...collection],
       artist,
       albumName,
+      getFavorite: ximboca,
     });
   }
 
+  fetchinho = async () => {
+    const segundaDivisao = await getFavoriteSongs();
+    this.setState({ getFavorite: segundaDivisao });
+  };
+
   render() {
-    const { collection, artist, albumName } = this.state;
+    const { collection, artist, albumName, getFavorite } = this.state;
 
     return (
       <div data-testid="page-album">
@@ -48,17 +56,12 @@ export default class Album extends Component {
             collection
               .filter((track) => track.trackName)
               .map((album) => (
-                <>
-                  <MusicCard
-                    key={ album.collectionId }
-                    infoMusic={ album }
-                  />
-
-                  {/* <Favorites
-                    key={ album.collectionId }
-                    infoMusic={ album }
-                  /> */}
-                </>
+                <MusicCard
+                  key={ album.trackId }
+                  infoMusic={ album }
+                  getFavorite={ getFavorite }
+                  getFavoriteFunc={ this.fetchinho }
+                />
               ))
           }
         </article>

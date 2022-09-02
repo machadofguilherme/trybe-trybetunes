@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 
-import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { getFavoriteSongs, addSong } from '../services/favoriteSongsAPI';
 
 export default class Favorites extends Component {
   state = {
@@ -28,16 +27,17 @@ export default class Favorites extends Component {
     this.setState({ click: value });
   };
 
+  // Como obter as informações do álbum?
   handleClick = async () => {
-    const { infoMusic } = this.props;
-
     this.setState({ isLoading: true });
-    await addSong(infoMusic);
+    console.log();
+    await addSong();
     this.setState({ isLoading: false });
   };
 
   render() {
     const { isLoading, favorites, click } = this.state;
+    console.log(favorites);
 
     return (
       <main>
@@ -81,7 +81,3 @@ export default class Favorites extends Component {
     );
   }
 }
-
-Favorites.propTypes = {
-  infoMusic: PropTypes.arrayOf.isRequired,
-};
