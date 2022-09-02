@@ -30,7 +30,6 @@ export default class Favorites extends Component {
   // Como obter as informações do álbum?
   handleClick = async () => {
     this.setState({ isLoading: true });
-    console.log();
     await addSong();
     this.setState({ isLoading: false });
   };

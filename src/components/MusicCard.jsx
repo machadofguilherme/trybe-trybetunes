@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Loading from './Loading';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, removeSong } from '../services/favoriteSongsAPI';
 
 export default class MusicCard extends Component {
   state = {
     isLoading: false,
   };
 
-  handleClick = async () => {
+  handleClick = async ({ target }) => {
     const { infoMusic, getFavoriteFunc } = this.props;
     this.setState({ isLoading: true });
-    await addSong(infoMusic);
+    if (!target.checked) await removeSong(infoMusic);
+    else await addSong(infoMusic);
     await getFavoriteFunc();
     this.setState({ isLoading: false });
   };
